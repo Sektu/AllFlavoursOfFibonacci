@@ -1,0 +1,11 @@
+{
+  "name": "all-flavours-of-fibonacci",
+  "version": "1.0.0",
+  "author": "Siergus <patryksierzega93@gmail.com>",
+  "devDependencies": {
+    "jest": "^29.3.1"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}

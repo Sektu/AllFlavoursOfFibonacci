@@ -1,16 +1,16 @@
-var fs = require('fs');
-
-
 const fibos = {
     //probably the worst approach - recursive
     fibo1: (number) => {
-        if (number === 0) {
-            return 0;
-        } else if (number === 1) {
-            return 1;
-        } else {
-            return fibo1(number - 1) + fibo1(number - 2);
-        }
+        function fibo(number) {
+            if (number === 0) {
+                return 0;
+            } else if (number === 1) {
+                return 1;
+            } else {
+                return fibo(number - 1) + fibo(number - 2);
+            }
+        };
+        return fibo(number);
     },
     //much better, arrays reading is pretty fast
     fibo2: (number) => {
@@ -59,6 +59,7 @@ const fibos = {
             for(let i = 2; i <= number; i++) {
                 result.set(i, result.get(i-1) + result.get(i-2));
             }
+            
             return result.get(number);
         }
     },
@@ -76,6 +77,7 @@ const fibos = {
         }
     },
     //now i reached end of memory, so previous version with another fix, clearing memory
+    //JavaScript heap out of memory
     fibo6: (number) => {
         const result = new Map([[0, BigInt(0)], [1, BigInt(1)]]);
         if(number === 0 || number === 1) {
@@ -91,59 +93,28 @@ const fibos = {
             }
             return result.get(number);
         }
+    },
+    //no lists or maps, just BigInts
+    fibo7: (number) => {
+        let prev2 = BigInt(0);
+        let prev1 = BigInt(1);
+        let current;
+
+        if(number === 0) {
+            return prev2;
+        }
+        else if(number === 1) {
+            return prev1;
+        }
+        else {
+            for(let i = 2; i <= number; i++) {
+                current = prev2 + prev1;
+                prev2 = prev1;
+                prev1 = current;
+            }
+            return prev1;
+        }
     }
 }
 
-function addResult(data, functionName, number, duration) {
-
-    if(!data[functionName]) {
-        data[functionName] = {};
-    }
-
-    if(!data[functionName][number]) {
-        data[functionName][number] = [];
-    }
-
-    data[functionName][number].push(duration);
-}
-
-const filePath = 'data.json';
-
-const res = fs.readFileSync(filePath);
-const data = JSON.parse(res);
-
-//
-
-const functionName = 'fibo6';
-const fibo = fibos[functionName];
-
-const testValues = [
-    0,
-    1,
-    19,
-    45,
-    100,
-    1000,
-    3000,
-    10000,
-    20000,
-    30000,
-    50000,
-    100000,
-    200000,
-    300000,
-    500000,
-    1000000
-]
-
-
-for(let i = 0; i < testValues.length; i++) {
-    const start = new Date();
-    fibo(testValues[i]);
-    const duration = new Date() - start;
-    
-    addResult(data, functionName, testValues[i], duration);
-}
-
-console.log(data);
-fs.writeFileSync(filePath, JSON.stringify(data));
+module.exports = fibos;
