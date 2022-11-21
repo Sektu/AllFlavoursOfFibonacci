@@ -63,7 +63,7 @@ const fibos = {
             return result.get(number);
         }
     },
-    //the same as above, but with BigInt as results, because i've touched infinity :D, BigInts seems faster than numbers
+    //the same as above, but with BigInt as results, because i've touched infinity :D
     fibo5: (number) => {
         const result = new Map([[0, BigInt(0)], [1, BigInt(1)]]);
         if(number === 0 || number === 1) {

@@ -44,18 +44,22 @@ const testValues = [
     //1000000
 ];
 
-const testValues2 = [500000];
 
-for(let i = 0; i < testValues2.length; i++) {
-    const elem = testValues2[i];
+const testValues2 = [2000000];
+
+let duration = 0;
+//for(let i = 0; i < testValues2.length; i++) {
+    //const elem = testValues2[i];
     const start = new Date();
-    fibo(elem);
-    const duration = new Date() - start;
+    fibo(2000000);
+    //console.log(fibo(elem));
+    duration = new Date() - start;
     
-    addResult(data, functionName, elem, duration);
-}
+    //addResult(data, functionName, elem, duration);
+//}
 
-console.log(data);
-fs.writeFileSync(filePath, JSON.stringify(data));
+//console.log(data);
+console.log('duration: ' + duration);
+//fs.writeFileSync(filePath, JSON.stringify(data));
 
 module.exports = fibos;
